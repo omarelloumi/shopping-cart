@@ -12,13 +12,13 @@ const useStyles = createUseStyles(
             '&:hover': {
                 color: 'lightblue',
                 backgroundColor: '#F0F8FF',
-                borderRadius: '30%',
+                borderRadius: '40%',
             },
         },
         cartImage: {
             color: '#000',
             '&:hover': {
-            color: 'lightblue',
+            color: '#318CE7',
             },
         },
         cartCount: {

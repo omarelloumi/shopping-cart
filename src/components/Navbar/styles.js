@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
         margin : '0 4rem 0 0', 
         color: '#000',
         '&:hover': {
-            color: 'lightblue',
+            color: '#318CE7',
         },
     }
 })
