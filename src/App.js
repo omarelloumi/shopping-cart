@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Container from '@mui/material/Container';
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Store from "./pages/Store";
+import Home from "./pages/Home/Home";
+import About from "./pages/About/About";
+import Store from "./pages/Shop/Store";
 import Navbar from "./components/Navbar/Navbar";
 function App() {
   return (
