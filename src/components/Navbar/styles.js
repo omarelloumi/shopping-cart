@@ -2,12 +2,15 @@ import {createUseStyles} from 'react-jss'
 
 const useStyles = createUseStyles({
     appBar: {
-      backgroundColor: 'green',
-      margin: {// jss-expand gives more readable syntax
-        top: 0,
-        right: 5,
-        bottom: 5,
-        left: 0,
-      }}
-   })
+      marginBottom: '2rem',
+      backgroundColor: '#fff',
+    },
+    navLink: {
+        margin : '0 4rem 0 0', 
+        color: '#000',
+        '&:hover': {
+            color: 'lightblue',
+        },
+    }
+})
 export default useStyles
