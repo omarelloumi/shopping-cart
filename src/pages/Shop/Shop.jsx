@@ -2,7 +2,8 @@ import { Typography } from "@mui/material";
 import React from "react";
 import storeItems from "../../data/items.json";
 import { Grid } from "@mui/material";
-const Store = () => {
+import ShopItem from "../../components/ShopItem/ShopItem";
+const Shop = () => {
   const items = storeItems
   return (
     <>
@@ -10,16 +11,18 @@ const Store = () => {
       <Grid
         container
         direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={3}
+        mt={1}
       >
         {items.map((item) => (
           <Grid
-            container
-            direction="column"
-            justifyContent="flex-start"
-            alignItems="center"
+            key={item.id}
+            item
+            xs={12} sm={6} md={4} lg={3}
           >
+            <ShopItem item={item} />
           </Grid>
         ))}
       </Grid>
@@ -27,4 +30,4 @@ const Store = () => {
   );
 };
 
-export default Store;
+export default Shop;
