@@ -5,8 +5,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { NumericFormat } from 'react-number-format';
 
 const ShopItem = ({item}) => {
+    const [quantity, setQuantity] = React.useState(0);
   return (
     <Card elevation={5} >
       <CardMedia
@@ -25,20 +27,25 @@ const ShopItem = ({item}) => {
                 {item.name}
             </Typography>
             <Typography gutterBottom variant="h7" component="div">
-                {item.price}
+                <NumericFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'$'} />
             </Typography>
-        </Stack>      
-        <Stack
+        </Stack>  
+        {quantity ===0 ? (
+            <Button variant="contained" color="primary" fullWidth onClick={() => setQuantity(quantity + 1)}>
+                Add to Cart
+            </Button>
+        ) : (<><Stack
             direction="row"
             justifyContent="center"
             alignItems="center"
             spacing={1}
+            mt={1}
         >
             <Button variant="contained" size="small" color="primary">
                 +
             </Button>
             <Typography gutterBottom variant="h6" component="div">
-                0
+                {quantity}
             </Typography>
             <Typography gutterBottom variant="h7" component="div">
                 in cart 
@@ -58,6 +65,7 @@ const ShopItem = ({item}) => {
                 Remove
             </Button>
         </Stack>
+        </>)}
         </CardContent>
     </Card>
   )
