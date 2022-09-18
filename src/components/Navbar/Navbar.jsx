@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import useStyles from './styles';
 import { useNavigate } from 'react-router-dom';
-import ShoppingCart from '../ShoppingCart/ShoppingCart';
+import CartButton from '../CartButton/CartButton';
 
 const Navbar = () => {
   const classes = useStyles();
@@ -78,7 +78,7 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-          <ShoppingCart/>
+          <CartButton/>
         </Toolbar>
         
       </Container>
