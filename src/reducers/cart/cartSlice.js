@@ -12,7 +12,7 @@ export const increaseCartQuantity = createAsyncThunk(
       try {
         const cart = JSON.parse(localStorage.getItem('cart'))
         if (cart.find(item => item.id === shop.id) == null) {
-            return [...cart, { id : shop.id , quantity: 1, price : shop.price }]
+            return [...cart, { id : shop.id , quantity: 1, price : shop.price , name: shop.name, imgUrl: shop.imgUrl }]
         } else {
             return cart.map(item => {
                 if (item.id === shop.id) {
