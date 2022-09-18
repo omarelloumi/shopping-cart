@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -6,9 +6,25 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import { NumericFormat } from 'react-number-format';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { increaseCartQuantity, decreaseCartQuantity, removeItemFromCart } from '../../reducers/cart/cartSlice';
 const ShopItem = ({item}) => {
-    const [quantity, setQuantity] = React.useState(0);
+    const cart = useSelector ((state)=> state.cart.cartItems)
+    const dispatch = useDispatch()
+    const [quantity, setQuantity] = useState(0)
+    const getItemQuantity = (shop,cart) => {
+        const item = cart.find(item => item.id === shop.id) || null
+        if (item) 
+            return item.quantity 
+        else
+            return 0
+    }
+    useEffect(() => {
+        const qt = getItemQuantity(item,cart)
+        setQuantity(qt)
+    }, [dispatch,item,cart,quantity])
+    
+
   return (
     <Card elevation={5} >
       <CardMedia
@@ -31,7 +47,7 @@ const ShopItem = ({item}) => {
             </Typography>
         </Stack>  
         {quantity ===0 ? (
-            <Button variant="contained" color="primary" fullWidth onClick={() => setQuantity(quantity + 1)}>
+            <Button variant="contained" color="primary" fullWidth onClick={() => {dispatch(increaseCartQuantity(item.id));}}>
                 Add to Cart
             </Button>
         ) : (<><Stack
@@ -41,7 +57,7 @@ const ShopItem = ({item}) => {
             spacing={1}
             mt={1}
         >
-            <Button variant="contained" size="small" color="primary">
+            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(increaseCartQuantity(item.id));}} >
                 +
             </Button>
             <Typography gutterBottom variant="h6" component="div">
@@ -50,7 +66,7 @@ const ShopItem = ({item}) => {
             <Typography gutterBottom variant="h7" component="div">
                 in cart 
             </Typography>
-            <Button variant="contained" size="small" color="primary">
+            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(decreaseCartQuantity(item.id));}}>
                 -
             </Button>
         </Stack>
@@ -61,7 +77,7 @@ const ShopItem = ({item}) => {
             spacing={1}
             mt={2}
         >
-            <Button variant="contained" size="small" color="error">
+            <Button variant="contained" size="small" color="error" onClick={() => {dispatch(removeItemFromCart(item.id));}}>
                 Remove
             </Button>
         </Stack>
