@@ -1,9 +1,83 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const initialState = {
-    cartItems:[],
+    cartItems: JSON.parse(localStorage.getItem('cart')),
     opened:false
 }
+
+export const increaseCartQuantity = createAsyncThunk(
+    'cart/increase',
+    async (id, thunkAPI) => {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart'))
+        if (cart.find(item => item.id === id) == null) {
+            return [...cart, { id : id , quantity: 1 }]
+        } else {
+            return cart.map(item => {
+                if (item.id === id) {
+                  return { ...item, quantity: item.quantity + 1 }
+                } else {
+                  return item
+                }
+            })
+        }
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+      }
+    }
+  )
+
+export const decreaseCartQuantity = createAsyncThunk(
+    'cart/decrease',
+    async (id, thunkAPI)=>{
+        try {
+            const cart = JSON.parse(localStorage.getItem('cart'))
+            if (cart.find(item => item.id === id).quantity === 1) {
+                return cart.filter(item => item.id !== id)
+            } else {
+                return cart.map(item => {
+                    if (item.id === id) {
+                      return { ...item, quantity: item.quantity - 1 }
+                    } else {
+                      return item
+                    }
+                })
+            }
+          } catch (error) {
+            const message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+            return thunkAPI.rejectWithValue(message)
+          }
+    }
+)
+
+export const removeItemFromCart = createAsyncThunk(
+    'cart/remove',
+    async (id,thunkAPI) => {
+        try {
+            const cart = JSON.parse(localStorage.getItem('cart'))
+            return cart.filter(item => item.id !== id) 
+        } catch (error) {
+            const message =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    }
+)
 
 export const cartSlice = createSlice({
   name: 'cart',
@@ -18,50 +92,31 @@ export const cartSlice = createSlice({
     openCart: (state) => {
         return state.opened = true
     },
-    getItemQuantity: (state,action) => {
-        return state.cartItems.find(item => item.id === action.payload.id).quantity || 0
-    },
-    increaseCartQuantity: (state, action) => {
-        if (state.cartItems.find(item => item.id === action.payload.id) == null) {
-            return [...state.cartItems, { id : action.payload.id , quantity: 1 }]
-        } else {
-            return state.cartItems.map(item => {
-                if (item.id === action.payload.id) {
-                  return { ...item, quantity: item.quantity + 1 }
-                } else {
-                  return item
-                }
-            })
-        }
-    },
-    decreaseCartQuantity: (state, action) => {
-        if (state.cartItems.find(item => item.id === action.payload.id) === 1) {
-            return state.cartItems.filter(item => item.id !== action.payload.id)
-        } else {
-            return state.cartItems.map(item => {
-                if (item.id === action.payload.id) {
-                  return { ...item, quantity: item.quantity - 1 }
-                } else {
-                  return item
-                }
-            })
-        }
-    },
-    removeItemFromCart: (state, action) => {
-        return state.cartItems.filter(item => item.id !== action.payload.id)
-    },
+    reset : (state) => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(increaseCartQuantity.fulfilled, (state, action) => {
+        state.cartItems= action.payload
+        localStorage.setItem('cart',JSON.stringify(state.cartItems))
+      })
+      .addCase(decreaseCartQuantity.fulfilled, (state, action) => {
+        state.cartItems= action.payload
+        localStorage.setItem('cart',JSON.stringify(state.cartItems))
+      })
+      .addCase(removeItemFromCart.fulfilled, (state, action) => {
+        state.cartItems= action.payload
+        localStorage.setItem('cart',JSON.stringify(state.cartItems))
+      })
   },
 })
 
 // Action creators are generated for each case reducer function
 export const { 
-    setIsOpen, 
-    closeCart, 
-    openCart, 
-    getItemQuantity, 
-    increaseCartQuantity, 
-    decreaseCartQuantity, 
-    removeItemFromCart
+    reset,
+    setIsOpen,
+    closeCart,
+    openCart
 } = cartSlice.actions
 
 export default cartSlice.reducer
