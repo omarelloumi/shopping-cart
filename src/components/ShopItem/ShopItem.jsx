@@ -47,7 +47,7 @@ const ShopItem = ({item}) => {
             </Typography>
         </Stack>  
         {quantity ===0 ? (
-            <Button variant="contained" color="primary" fullWidth onClick={() => {dispatch(increaseCartQuantity(item.id));}}>
+            <Button variant="contained" color="primary" fullWidth onClick={() => {dispatch(increaseCartQuantity(item));}}>
                 Add to Cart
             </Button>
         ) : (<><Stack
@@ -57,7 +57,7 @@ const ShopItem = ({item}) => {
             spacing={1}
             mt={1}
         >
-            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(increaseCartQuantity(item.id));}} >
+            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(increaseCartQuantity(item));}} >
                 +
             </Button>
             <Typography gutterBottom variant="h6" component="div">
@@ -66,7 +66,7 @@ const ShopItem = ({item}) => {
             <Typography gutterBottom variant="h7" component="div">
                 in cart 
             </Typography>
-            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(decreaseCartQuantity(item.id));}}>
+            <Button variant="contained" size="small" color="primary" onClick={() => {dispatch(decreaseCartQuantity(item));}}>
                 -
             </Button>
         </Stack>
@@ -77,7 +77,7 @@ const ShopItem = ({item}) => {
             spacing={1}
             mt={2}
         >
-            <Button variant="contained" size="small" color="error" onClick={() => {dispatch(removeItemFromCart(item.id));}}>
+            <Button variant="contained" size="small" color="error" onClick={() => {dispatch(removeItemFromCart(item));}}>
                 Remove
             </Button>
         </Stack>
